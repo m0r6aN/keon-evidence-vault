@@ -168,10 +168,22 @@ Evidence in this vault is referenced by:
 
 ## Why This Exists
 
+While Keon Evidence Vault is technology-agnostic by design, it is commonly used
+to govern and audit AI-driven systems, including large language model (LLM)
+workflows, agentic execution frameworks, and automated decision-making systems.
+
+In these contexts, evidence packs provide verifiable answers to questions such as:
+- Why did an AI system make this decision?
+- Under which policy was the decision permitted?
+- Where did human authority intervene?
+- What evidence proves the decision path?
+
+The same verification and governance model applies regardless of whether execution
+is performed by humans, software systems, or AI agents.
+
 Most systems ask you to trust logs, dashboards, or explanations.
-
 Keon systems provide evidence instead.
-
 Sealed. Deterministic. Auditable.
+
 
 Evidence stands on its own.
