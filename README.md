@@ -61,20 +61,19 @@ No artifact here is mutable.
 
 ```
 evidence/
-<workflow-id>/
-<run-id>/
-sealed.zip
-seal-manifest.json
-summary.json
-receipts.jsonl
-decisions/
-directive_receipts.json
-file_decisions.jsonl
-policies/
-policy.<name>.yaml
-
+  <workflow-id>/
+    <run-id>/
+      sealed.zip
+      seal-manifest.json
+      summary.json
+      receipts.jsonl
+      decisions/
+        directive_receipts.json
+        file_decisions.jsonl
+  policies/
+    policy.<name>.yaml
 ledger/
-VAULT_LEDGER.jsonl
+  VAULT_LEDGER.jsonl
 ```
 
 - Each workflow run lives in its own directory
