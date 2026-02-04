@@ -1,6 +1,6 @@
 # Keon Evidence Vault
 
-⚠️ **Write-once. Read-only. Verifiable.**
+⚠️ **Write-once. Read-only. Verifiable.**  
 
 This repository is the **append-only evidence vault** for Keon-governed workflows.  
 It stores sealed evidence packs, receipts, and verification artifacts that prove
@@ -59,3 +59,120 @@ No artifact here is mutable.
 
 ## Repository Structure
 
+```
+evidence/
+<workflow-id>/
+<run-id>/
+sealed.zip
+seal-manifest.json
+summary.json
+receipts.jsonl
+decisions/
+directive_receipts.json
+file_decisions.jsonl
+policies/
+policy.<name>.yaml
+
+ledger/
+VAULT_LEDGER.jsonl
+```
+
+- Each workflow run lives in its own directory
+- Corrections result in **new runs**, not edits
+- Meaning follows placement. Placement follows governance.
+
+---
+
+## The Evidence Ledger (VAULT_LEDGER.jsonl)
+
+`VAULT_LEDGER.jsonl` is an **append-only index** of all evidence packs stored here.
+
+Each entry records:
+- timestamp of sealing
+- workflow ID and run ID
+- source repository and commit SHA
+- policy ID, version, and hash
+- sealed archive hash
+- manifest hash
+
+The ledger enables:
+- quick discovery of evidence
+- independent verification
+- external audit without repo traversal
+
+The ledger itself is not authoritative — it is a **map**.  
+The sealed evidence packs are the authority.
+
+---
+
+## How to Verify an Evidence Pack
+
+Verification is intentionally simple and tool-agnostic.
+
+### 1. Locate the Evidence Pack
+Each run directory contains:
+- `sealed.zip`
+- `seal-manifest.json`
+
+---
+
+### 2. Verify the Sealed Archive
+
+```bash
+sha256sum sealed.zip
+```
+
+Compare the result to the hash recorded in seal-manifest.json.
+
+They must match exactly.
+
+### 3. Verify Individual Artifacts (Optional)
+
+```bash
+unzip sealed.zip
+sha256sum <filename>
+```
+
+Confirm hashes match those recorded in the manifest.
+
+### 4. Review Receipts and Decisions
+
+- receipts.jsonl — deterministic workflow receipts
+- directive_receipts.json — explicit human authority
+- file_decisions.jsonl — derived actions under approved directives
+- Human authority is explicit, non-delegable, and receipted.
+- No silent changes. No implicit approval.
+
+---
+
+## Immutability Guarantees
+
+This repository is enforced as write-once, read-many.
+
+- Existing evidence must not be modified or deleted
+- Only new directories may be added
+- History rewriting is blocked by policy and repository protections
+- Any modification invalidates integrity guarantees.
+
+---
+
+## Referenced By
+
+Evidence in this vault is referenced by:
+
+- Keon documentation (keon-docs, keon-docs-internal)
+- OMEGA workflows (omega-docs, omega-docs-internal)
+- Governed remediation and categorization workflows
+- Repositories reference evidence by hash and path, not by trust.
+
+---
+
+## Why This Exists
+
+Most systems ask you to trust logs, dashboards, or explanations.
+
+Keon systems provide evidence instead.
+
+Sealed. Deterministic. Auditable.
+
+Evidence stands on its own.
